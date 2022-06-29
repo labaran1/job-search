@@ -6,6 +6,9 @@ const errorHandler = require('./src/middlewares/errorHandler');
 require('express-async-errors');
 require('dotenv').config();
 
+//routes imports
+const authRoutes = require('./src/routes/auth.routes');
+
 const app = express();
 const port = process.env.port || process.env.PORT;
 const dbURI = process.env.dbURI;
@@ -19,6 +22,7 @@ app.get('/', (req, res) => {
 });
 
 // routes
+app.use('/api/auth', authRoutes);
 
 //custom middlewares
 app.use(errorHandler);
