@@ -31,7 +31,7 @@ export default function SignUP() {
     }
   };
   return (
-    <div className="w-full h-screen flex justify-center items-center">
+    <div className="w-full h-full py-[12rem] flex justify-center items-center">
       <div className="  shadow-lg h-[20rem] w-[25rem] border rounded-md border-slate-800 ">
         <form onSubmit={handleSubmit} className=" w-full h-full px-2">
           <h1 className=" text-2xl font-bold text-center py-3 capitalize">
