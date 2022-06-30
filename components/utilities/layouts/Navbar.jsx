@@ -1,8 +1,26 @@
 import Link from 'next/link';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useContext } from 'react';
 import { GrWorkshop } from 'react-icons/gr';
+import { Context } from '../../../context';
+import { LOGOUT } from '../../../context/types';
 
 const Navbar = () => {
+  const {
+    state: { user },
+    dispatch,
+  } = useContext(Context);
+  const router = useRouter();
+  console.log(user);
+
+  const logout = () => {
+    window.localStorage.clear();
+    dispatch({
+      type: LOGOUT,
+    });
+    router.push('/auth/signin');
+  };
+
   return (
     <nav className="h-[8vh] w-full  bg-white border-b">
       <div className="  px-[3rem] py-3 flex items-center justify-between">
@@ -15,17 +33,27 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="flex items-center  space-x-4 h-10">
-          <Link href="/auth/signin">
-            <div className="hover:border border-blue-400 px-4 py-2 font-bold rounded-lg cursor-pointer">
-              Login
+          {!user ? (
+            <>
+              <Link href="/auth/signin">
+                <div className="hover:border border-blue-400 px-4 py-2 font-bold rounded-lg cursor-pointer">
+                  Login
+                </div>
+              </Link>
+              <Link href="/auth/signup">
+                <div className="font-bold bg-blue-500 px-4 py-2 rounded-lg cursor-pointer text-white hover:scale-105 duration-300">
+                  SignUp
+                </div>
+              </Link>
+            </>
+          ) : (
+            <div
+              onClick={logout}
+              className="font-bold bg-blue-500 px-4 py-2 rounded-lg cursor-pointer text-white hover:scale-105 duration-300"
+            >
+              Logout
             </div>
-          </Link>
-
-          <Link href="/auth/signup">
-            <div className="font-bold bg-blue-500 px-4 py-2 rounded-lg cursor-pointer text-white hover:scale-105 duration-300">
-              SignUp
-            </div>
-          </Link>
+          )}
         </div>
       </div>
     </nav>
