@@ -1,6 +1,7 @@
-import { createContext } from 'react';
+import { createContext, useEffect } from 'react';
 import { useReducer } from 'react';
 import rootReducer from './rootReducer';
+import { LOGIN } from './types';
 
 // context
 const Context = createContext();
@@ -17,7 +18,14 @@ const initialState = {
 const Provider = ({ children }) => {
   const [state, dispatch] = useReducer(rootReducer, initialState);
 
-  //Todo:Get boards from server and save in state as boards
+  // get data from localStorage to context
+  useEffect(() => {
+    dispatch({
+      type: LOGIN,
+      payload: JSON.parse(window.localStorage.getItem('user')),
+    });
+  }, []);
+
   return (
     <Context.Provider value={{ state, dispatch }}>{children}</Context.Provider>
   );
