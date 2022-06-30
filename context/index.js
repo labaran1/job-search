@@ -9,8 +9,56 @@ const Context = createContext();
 const initialState = {
   user: null,
   boards: [
-    { name: 'jobs1', id: 1 },
-    { name: 'board2', id: 2 },
+    {
+      name: 'job-Search-2022',
+      id: '1',
+      section: [
+        {
+          name: 'Waiting',
+          jobs: [
+            {
+              title: 'Software Engineer',
+              company: 'Google',
+              id: '3',
+            },
+            {
+              title: 'Software Engineer',
+              company: 'Facebook',
+              id: '2',
+            },
+            {
+              title: 'Software Engineer (Frontend)',
+              company: 'Spark',
+              id: '4',
+            },
+          ],
+        },
+        {
+          name: 'Applied',
+          jobs: [
+            {
+              title: 'Software Architect',
+              company: 'Google',
+              id: '5',
+            },
+            {
+              title: 'Software Engineer',
+              company: 'Twitter',
+              id: '6',
+            },
+            {
+              title: 'Software Engineer (Frontend)',
+              company: 'Spark',
+              id: '9',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'job-search-1',
+      id: 2,
+    },
   ],
 };
 
