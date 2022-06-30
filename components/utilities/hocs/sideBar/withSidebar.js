@@ -5,7 +5,7 @@ export default (WrappedComponent, pages) => {
   const hocComponent = ({ ...props }) => (
     <div style={{ display: 'flex' }}>
       <Sidebar />
-      <WrappedComponent {...props} />;
+      <WrappedComponent {...props} />
     </div>
   );
 
