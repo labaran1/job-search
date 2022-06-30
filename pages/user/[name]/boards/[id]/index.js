@@ -1,15 +1,58 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import WithSidebar from '../../../../../components/utilities/hocs/sideBar/withSidebar';
 
 function Boards({ board }) {
   const router = useRouter();
   const { id } = router.query;
+  const [section, setSection] = useState();
+
   console.log(board);
   if (router.isFallback) {
     return <div>loading Data...</div>;
   } else {
-    return <div>Hello jobs {id}</div>;
+    return (
+      <main className="flex">
+        {/* <div>{board[0].name}</div> */}
+        {board[0].section?.map((sec) => (
+          <section
+            key={sec.name}
+            className="bg-gray-100 w-80 border-r-2 p-4  h-full"
+          >
+            <center className="">
+              {sec.name}
+              <div className="text-gray-400 text-sm mb-1">
+                {sec.jobs.length} Jobs
+              </div>
+
+              <button
+                className="bg-white border-2 w-72 rounded-md text-4xl text-gray-300"
+                title="Add Job"
+              >
+                +
+              </button>
+            </center>
+
+            <main className="hover:bg-gray-200 h-full mt-4">
+              {sec.jobs?.map((job) => (
+                <div
+                  key={job.id}
+                  className="bg-blue-200 mb-3 cursor-pointer rounded-md h-32 p-2"
+                >
+                  {job.title}
+                  <div className="text-sm text-gray-600">{job.company}</div>
+                </div>
+              ))}
+            </main>
+          </section>
+        ))}
+        <div className="p-10 cursor-pointer w-80">
+          <button className="bg-white hover:border-2 w-72 h-10 rounded-md text-lg text-gray-500">
+            + Add Stage
+          </button>
+        </div>
+      </main>
+    );
   }
 }
 
@@ -37,14 +80,17 @@ export async function getStaticProps(context) {
             {
               title: 'Software Engineer',
               company: 'Google',
+              id: '3',
             },
             {
               title: 'Software Engineer',
               company: 'Facebook',
+              id: '2',
             },
             {
               title: 'Software Engineer (Frontend)',
               company: 'Spark',
+              id: '4',
             },
           ],
         },
@@ -54,14 +100,17 @@ export async function getStaticProps(context) {
             {
               title: 'Software Architect',
               company: 'Google',
+              id: '5',
             },
             {
               title: 'Software Engineer',
               company: 'Twitter',
+              id: '6',
             },
             {
               title: 'Software Engineer (Frontend)',
               company: 'Spark',
+              id: '9',
             },
           ],
         },
