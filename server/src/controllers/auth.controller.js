@@ -52,7 +52,7 @@ exports.login = async (req, res) => {
     });
   }
 
-  const isMatch = user.comparePassword(password);
+  const isMatch = await user.comparePassword(password);
 
   if (!isMatch) {
     return res.status(StatusCodes.UNAUTHORIZED).json({
@@ -64,6 +64,8 @@ exports.login = async (req, res) => {
   res.cookie('token', token, {
     httpOnly: true,
   });
+
+  user.password = undefined;
 
   res.status(StatusCodes.OK).json({
     user,

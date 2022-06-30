@@ -8,6 +8,10 @@ const Context = createContext();
 
 const initialState = {
   user: null,
+  boards: [
+    { name: 'jobs1', id: 1 },
+    { name: 'board2', id: 2 },
+  ],
 };
 
 // provider
