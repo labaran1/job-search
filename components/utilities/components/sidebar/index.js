@@ -17,58 +17,52 @@ export default function Sidebar() {
   };
   return (
     <nav className="bg-slate-50 h-full  w-72  p-3 border-r border-slate-500">
-      <div className="flex  bg-slate-200 justify-evenly  rounded h-9 w-52 ">
-        {' '}
-        <AiOutlineUser className="mt-2 text-xl" />
-        <span className="text-xl mt-1">
-          {user?.name.charAt(0).toUpperCase() + user?.name.slice(1)}
-        </span>
-        <AiFillSetting
-          className=" cursor-pointer mt-2 text-xl"
-          title="Go to settings"
-        />{' '}
-        {/* //Todo: Add link to settings page */}
-      </div>
+      <div className="h-full flex items-center flex-col justify-between">
+        <ul className="mt-2">
+          <li className="text-black  hover:bg-gray-200 font-bold text-2xl  hover:rounded mb-3 px-2 py-2">
+            <Link href={`/user/${user?.name}/jobs`}>
+              <a className="cursor-pointer text-lg ">Jobs</a>
+            </Link>
+          </li>
 
-      <ul className="mt-20">
-        <li className="text-black  hover:bg-gray-200  hover:rounded mb-3">
-          <Link href={`/user/${user?.name}/jobs`}>
-            <a className="cursor-pointer text-lg ">Jobs</a>
-          </Link>
-        </li>
+          <li className="mb-3 p-2">
+            <span className=" flex w-[13rem] items-center justify-between">
+              <p className=" font-bold text-2xl">Boards</p>
+              <AiOutlinePlus size={25} title="Add a job board" />
+            </span>
+            <ul>
+              {boards.map((b) => (
+                <Link key={b.id} href={`/user/${user?.name}/boards/${b.id}`}>
+                  <li
+                    className="ml-5 cursor-pointer  text-black  hover:bg-gray-200  hover:rounded mt-2 flex justify-between items-center p-2"
+                    id={b.id}
+                  >
+                    <a className=" text-gray-400"> {b.name}</a>
+                    {/* //todo: show delete only on hover */}
 
-        <li className="mb-3">
-          <span>
-            {' '}
-            Boards{' '}
-            <AiOutlinePlus
-              className="inline-block text-xl ml-48 cursor-pointer"
-              title="Add a job board"
-            />
+                    <AiOutlineDelete className="hover:text-red-600" size={25} />
+                  </li>
+                </Link>
+              ))}
+            </ul>
+          </li>
+
+          <li className="text-black  hover:bg-gray-200  hover:rounded mb-3 p-2">
+            <Link href={`/user/${user?.name}/reports`}>
+              <a className="cursor-pointer font-bold text-2xl ">Reports</a>
+            </Link>
+          </li>
+        </ul>
+        <div className="flex items-center hover:shadow-md py-1 hover:scale-105 duration-300  bg-slate-200 justify-evenly  rounded  w-52 mb-3 ">
+          {' '}
+          <AiOutlineUser size={25} />
+          <span className="text-xl ">
+            {user?.name.charAt(0).toUpperCase() + user?.name.slice(1)}
           </span>
-          <ul>
-            {boards.map((b) => (
-              <Link key={b.id} href={`/user/${user?.name}/boards/${b.id}`}>
-                <li
-                  className="ml-5 cursor-pointer  text-black  hover:bg-gray-200  hover:rounded mt-2"
-                  id={b.id}
-                >
-                  <a className=" text-gray-400"> {b.name}</a>
-                  {/* //todo: show delete only on hover */}
-
-                  <AiOutlineDelete className="inline-block  ml-20" />
-                </li>
-              </Link>
-            ))}
-          </ul>
-        </li>
-
-        <li className="text-black  hover:bg-gray-200  hover:rounded mb-3">
-          <Link href={`/user/${user?.name}/reports`}>
-            <a className="cursor-pointer text-lg ">Reports</a>
-          </Link>
-        </li>
-      </ul>
+          <AiFillSetting size={25} title="Go to settings" />{' '}
+          {/* //Todo: Add link to settings page */}
+        </div>
+      </div>
     </nav>
   );
 }
