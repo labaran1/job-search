@@ -4,7 +4,7 @@ import { GrWorkshop } from 'react-icons/gr';
 
 const Navbar = () => {
   return (
-    <nav className="h-16 w-full bg-white border-b">
+    <nav className="h-[8vh] w-full  bg-white border-b">
       <div className="  px-[3rem] py-3 flex items-center justify-between">
         <div className=" flex items-center w-[8rem] justify-between">
           <GrWorkshop size={30} />{' '}

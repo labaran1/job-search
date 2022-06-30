@@ -16,8 +16,8 @@ export default function Sidebar() {
     setIsHovering(false);
   };
   return (
-    <nav className="bg-slate-50  w-72 h-screen ml-2 mt-10">
-      <div className="flex  bg-slate-200 justify-evenly  rounded h-9 w-52 ml-8">
+    <nav className="bg-slate-50 h-full  w-72  p-3 border-r border-slate-500">
+      <div className="flex  bg-slate-200 justify-evenly  rounded h-9 w-52 ">
         {' '}
         <AiOutlineUser className="mt-2 text-xl" />
         <span className="text-xl mt-1">

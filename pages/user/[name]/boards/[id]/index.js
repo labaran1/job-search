@@ -12,14 +12,14 @@ function Boards({ board }) {
     return <div>loading Data...</div>;
   } else {
     return (
-      <main className="flex">
+      <main className="flex overflow-x-auto overflow-y-hidden h-[92vh] w-full">
         {/* <div>{board[0].name}</div> */}
         {board[0].section?.map((sec) => (
           <section
             key={sec.name}
-            className="bg-gray-100 w-80 border-r-2 p-4  h-full"
+            className="bg-gray-100 w-[40rem] border-r-2 p-4 h-[92vh] "
           >
-            <center className="">
+            <center className="mb-2">
               {sec.name}
               <div className="text-gray-400 text-sm mb-1">
                 {sec.jobs.length} Jobs
@@ -33,7 +33,7 @@ function Boards({ board }) {
               </button>
             </center>
 
-            <main className="hover:bg-gray-200 h-full mt-4">
+            <main className="hover:bg-gray-200 h-full overflow-y-auto overflow-x-hidden">
               {sec.jobs?.map((job) => (
                 <div
                   key={job.id}
@@ -106,6 +106,41 @@ export async function getStaticProps(context) {
               title: 'Software Engineer',
               company: 'Twitter',
               id: '6',
+            },
+            {
+              title: 'Software Engineer (Frontend)',
+              company: 'Spark',
+              id: '9',
+            },
+            {
+              title: 'Software Engineer (Frontend)',
+              company: 'Spark',
+              id: '9',
+            },
+            {
+              title: 'Software Engineer (Frontend)',
+              company: 'Spark',
+              id: '9',
+            },
+            {
+              title: 'Software Engineer (Frontend)',
+              company: 'Spark',
+              id: '9',
+            },
+            {
+              title: 'Software Engineer (Frontend)',
+              company: 'Spark',
+              id: '9',
+            },
+            {
+              title: 'Software Engineer (Frontend)',
+              company: 'Spark',
+              id: '9',
+            },
+            {
+              title: 'Software Engineer (Frontend)',
+              company: 'Spark',
+              id: '9',
             },
             {
               title: 'Software Engineer (Frontend)',
