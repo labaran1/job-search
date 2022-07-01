@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, Fragment } from 'react';
 import { useRouter } from 'next/router';
 import WithSidebar from '../../../../../components/utilities/hocs/sideBar/withSidebar';
 import { Context } from '../../../../../context/index';
+import { Transition, Dialog } from '@headlessui/react';
 import axios from 'axios';
+import AddStageForm from '../../../../../components/Forms/AddStageForm';
 
 function Boards() {
   const router = useRouter();
@@ -11,6 +13,8 @@ function Boards() {
   const [destination, setDestination] = useState('');
   const [source, setSource] = useState('');
   const [stages, setStages] = useState([]);
+  const [stageModal, setStageModal] = useState(false);
+  const [stageName, setStageName] = useState('');
 
   useEffect(() => {
     loadStages();
@@ -24,6 +28,29 @@ function Boards() {
 
       console.log(data.stages, 'stages');
       setStages(data?.stages);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const openStageModal = () => {
+    setStageModal(true);
+  };
+
+  const closeStageModal = () => {
+    setStageModal(false);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post(
+        `http://localhost:5000/api/board/addStage/${id}`,
+        { name: stageName }
+      );
+      setStages([...stages, data.stage]);
+      closeStageModal();
+      console.log(data.stage);
     } catch (err) {
       console.log(err);
     }
@@ -100,10 +127,53 @@ function Boards() {
           </section>
         ))}
         <div className="p-10 cursor-pointer w-80">
-          <button className="bg-white hover:border-2 w-72 h-10 rounded-md text-lg text-gray-500">
+          <button
+            onClick={openStageModal}
+            className="bg-white hover:border-2 w-72 h-10 rounded-md text-lg text-gray-500"
+          >
             + Add Stage
           </button>
         </div>
+        <Transition as={Fragment} appear show={stageModal}>
+          <Dialog as="div" onClose={closeStageModal}>
+            <Transition
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed bg-black bg-opacity-25 inset-0" />
+            </Transition>
+            <div className=" fixed inset-0 overflow-y-auto">
+              <div className="flex items-center justify-center min-h-full ">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 scale-95"
+                  enterTo="opacity-100 scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 scale-100"
+                  leaveTo="opacity-0 scale-95"
+                >
+                  <Dialog.Panel className=" w-[25rem] transition-all rounded-lg transform bg-white shadow-lg">
+                    <h1 className="font-bold text-2xl text-center py-2">
+                      New Stage
+                    </h1>
+                    <AddStageForm
+                      handleSubmit={handleSubmit}
+                      setStageName={setStageName}
+                      closeStageModal={closeStageModal}
+                      stageName={stageName}
+                    />
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
+            </div>
+          </Dialog>
+        </Transition>
       </main>
     );
   }
