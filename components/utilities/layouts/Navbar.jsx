@@ -15,7 +15,7 @@ const Navbar = () => {
 
   const logout = async () => {
     try {
-      const { data } = await axios.get('/api/auth/logout');
+      const { data } = await axios.get('http://localhost:5000/api/auth/logout');
       if (data.success) {
         window.localStorage.clear();
         dispatch({
