@@ -10,7 +10,7 @@ const AuthMiddleware = require('../middlewares/auth.middleware');
 
 const router = express.Router();
 
-router.post('/create', create);
+router.post('/create/:userId', create);
 router.post('/addStage/:boardId', addStage);
 router.post('/addJob/:stageId', addJob);
 router.get('/getBoards/:userId', getBoards);
