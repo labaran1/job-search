@@ -1,7 +1,13 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 
-const AddJobForm = ({ currentId, closeJobModal, stages, setStages }) => {
+const AddJobForm = ({
+  currentId,
+  closeJobModal,
+  stages,
+  setStages,
+  loadStages,
+}) => {
   const [title, setTitle] = useState('');
   const [company, setCompany] = useState('');
 
@@ -17,6 +23,7 @@ const AddJobForm = ({ currentId, closeJobModal, stages, setStages }) => {
       );
 
       console.log(stages, currentId, data.addedJob);
+      loadStages();
       // setStages((prev) => {
       //   const NeSt = prev;
       //   let a = NeSt.filter((sta) => sta._id == currentId);

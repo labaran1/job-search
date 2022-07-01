@@ -126,6 +126,7 @@ function Boards() {
                             closeJobModal={closeJobModal}
                             stages={stages}
                             setStages={setStages}
+                            loadStages={loadStages}
                           />
                         </Dialog.Panel>
                       </Transition.Child>
