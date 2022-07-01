@@ -6,6 +6,8 @@ const AuthMiddleware = (req, res, next) => {
   const token = req.cookies.token;
   const secret = process.env.JwtSecret;
 
+  console.log(token);
+
   try {
     if (!token) {
       return res.status(StatusCodes.FORBIDDEN).json({

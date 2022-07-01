@@ -18,9 +18,7 @@ function Boards() {
 
   const loadStages = async () => {
     try {
-      const { data } = await axios.get(
-        `http://localhost:5000/api/board/getStages/${id}`
-      );
+      const { data } = await axios.get(`/api/board/getStages/${id}`);
 
       console.log(data.stages, 'stages');
       setStages(data?.stages);

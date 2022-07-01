@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, Fragment } from 'react';
 import { Context } from '../../../../context/index';
+import { Dialog, Transition } from '@headlessui/react';
 import Link from 'next/link';
 
 import {
@@ -9,10 +10,21 @@ import {
   AiOutlineDelete,
 } from 'react-icons/ai';
 import axios from 'axios';
-import { BOARDS } from '../../../../context/types';
+import { ADDBOARD, BOARDS } from '../../../../context/types';
+import AddBoardForm from '../../../Forms/AddBoardForm';
 export default function Sidebar() {
   const appContext = useContext(Context);
   const { boards, user } = appContext.state;
+  const [boardModal, setBoardModal] = useState(false);
+  const [boardName, setBoardName] = useState('');
+
+  const openBoadModal = () => {
+    setBoardModal(true);
+  };
+
+  const closeBoardModal = () => {
+    setBoardModal(false);
+  };
 
   useEffect(() => {
     loadBoards();
@@ -28,6 +40,28 @@ export default function Sidebar() {
         type: BOARDS,
         payload: data.boards,
       });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post(
+        'http://localhost:5000/api/board/create',
+        {
+          name: boardName,
+        }
+      );
+
+      appContext.dispatch({
+        type: ADDBOARD,
+        payload: data.board,
+      });
+
+      console.log(data);
+      closeBoardModal();
     } catch (err) {
       console.log(err);
     }
@@ -49,16 +83,62 @@ export default function Sidebar() {
           <li className="mb-3 p-2">
             <span className=" flex w-[13rem] items-center justify-between">
               <p className=" font-bold text-2xl">Boards</p>
-              <AiOutlinePlus size={25} title="Add a job board" />
+              <div onClick={openBoadModal} className=" cursor-pointer">
+                <AiOutlinePlus size={25} title="Add a job board" />
+              </div>
             </span>
-            <ul>
+            {/* Add Board Modal */}
+            <Transition as={Fragment} appear show={boardModal}>
+              <Dialog as="div" onClose={closeBoardModal}>
+                <Transition
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <div className="fixed bg-black bg-opacity-25 inset-0" />
+                </Transition>
+                <div className=" fixed inset-0 overflow-y-auto">
+                  <div className="flex items-center justify-center min-h-full ">
+                    <Transition.Child
+                      as={Fragment}
+                      enter="ease-out duration-300"
+                      enterFrom="opacity-0 scale-95"
+                      enterTo="opacity-100 scale-100"
+                      leave="ease-in duration-200"
+                      leaveFrom="opacity-100 scale-100"
+                      leaveTo="opacity-0 scale-95"
+                    >
+                      <Dialog.Panel className=" w-[25rem] transition-all rounded-lg transform bg-white shadow-lg">
+                        <h1 className="font-bold text-2xl text-center py-2">
+                          New Board
+                        </h1>
+                        <AddBoardForm
+                          handleSubmit={handleSubmit}
+                          boardName={boardName}
+                          setBoardName={setBoardName}
+                          closeBoardModal={closeBoardModal}
+                        />
+                      </Dialog.Panel>
+                    </Transition.Child>
+                  </div>
+                </div>
+              </Dialog>
+            </Transition>
+            <ul className="h-[20rem] overflow-y-auto">
               {boards.map((b) => (
-                <Link key={b._id} href={`/user/${user?.name}/boards/${b._id}`}>
+                <Link
+                  key={b?._id}
+                  href={`/user/${user?.name}/boards/${b?._id}`}
+                >
                   <li
                     className="ml-5 cursor-pointer  text-black  hover:bg-gray-200  hover:rounded mt-2 flex justify-between items-center p-2"
-                    id={b.id}
+                    id={b?.id}
                   >
-                    <a className=" text-gray-400"> {b.name}</a>
+                    <a className=" text-gray-400"> {b?.name}</a>
                     {/* //todo: show delete only on hover */}
 
                     <AiOutlineDelete className="hover:text-red-600" size={25} />

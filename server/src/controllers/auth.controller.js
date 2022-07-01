@@ -71,3 +71,8 @@ exports.login = async (req, res) => {
     user,
   });
 };
+
+exports.logout = (req, res) => {
+  res.clearCookie('token');
+  res.status(StatusCodes.OK).json({ success: true });
+};

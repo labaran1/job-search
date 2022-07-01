@@ -1,3 +1,4 @@
+import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useContext } from 'react';
@@ -11,14 +12,20 @@ const Navbar = () => {
     dispatch,
   } = useContext(Context);
   const router = useRouter();
-  console.log(user);
 
-  const logout = () => {
-    window.localStorage.clear();
-    dispatch({
-      type: LOGOUT,
-    });
-    router.push('/auth/signin');
+  const logout = async () => {
+    try {
+      const { data } = await axios.get('/api/auth/logout');
+      if (data.success) {
+        window.localStorage.clear();
+        dispatch({
+          type: LOGOUT,
+        });
+        router.push('/auth/signin');
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
