@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../../../../context/index';
 import Link from 'next/link';
 
@@ -8,9 +8,30 @@ import {
   AiOutlinePlus,
   AiOutlineDelete,
 } from 'react-icons/ai';
+import axios from 'axios';
+import { BOARDS } from '../../../../context/types';
 export default function Sidebar() {
   const appContext = useContext(Context);
   const { boards, user } = appContext.state;
+
+  useEffect(() => {
+    loadBoards();
+  }, [user]);
+
+  const loadBoards = async () => {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:5000/api/board/getBoards/${user?._id}`
+      );
+
+      appContext.dispatch({
+        type: BOARDS,
+        payload: data.boards,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleMouseOut = () => {
     setIsHovering(false);
@@ -32,7 +53,7 @@ export default function Sidebar() {
             </span>
             <ul>
               {boards.map((b) => (
-                <Link key={b.id} href={`/user/${user?.name}/boards/${b.id}`}>
+                <Link key={b._id} href={`/user/${user?.name}/boards/${b._id}`}>
                   <li
                     className="ml-5 cursor-pointer  text-black  hover:bg-gray-200  hover:rounded mt-2 flex justify-between items-center p-2"
                     id={b.id}

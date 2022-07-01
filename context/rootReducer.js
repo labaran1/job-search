@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT } from './types';
+import { BOARDS, LOGIN, LOGOUT } from './types';
 
 const rootReducer = (state, action) => {
   switch (action.type) {
@@ -6,6 +6,8 @@ const rootReducer = (state, action) => {
       return { ...state, user: action.payload };
     case LOGOUT:
       return { ...state, user: null };
+    case BOARDS:
+      return { ...state, boards: action.payload };
     default:
       return state;
   }
