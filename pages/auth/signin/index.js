@@ -40,7 +40,7 @@ export default function SignIn() {
       }
 
       {
-        data.user && router.push(`/user/${encodeURIComponent(data.user.name)}`);
+        data.user && router.push(`/user/${encodeURIComponent(data.user._id)}`);
       }
     } catch (err) {
       console.log(err);
