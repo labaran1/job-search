@@ -10,10 +10,10 @@ const AuthMiddleware = require('../middlewares/auth.middleware');
 
 const router = express.Router();
 
-router.post('/create', AuthMiddleware, create);
-router.post('/addStage/:boardId', AuthMiddleware, addStage);
-router.post('/addJob/:stageId', AuthMiddleware, addJob);
-router.get('/getBoards/:userId', AuthMiddleware, getBoards);
-router.get('/getStages/:boardId', AuthMiddleware, getStages);
+router.post('/create', create);
+router.post('/addStage/:boardId', addStage);
+router.post('/addJob/:stageId', addJob);
+router.get('/getBoards/:userId', getBoards);
+router.get('/getStages/:boardId', getStages);
 
 module.exports = router;

@@ -11,11 +11,11 @@ exports.create = async (req, res) => {
     });
   }
 
-  if (!req.userId) {
-    return res.status(StatusCodes.FORBIDDEN).json({
-      msg: 'Unauthorized',
-    });
-  }
+  // if (!req.userId) {
+  //   return res.status(StatusCodes.FORBIDDEN).json({
+  //     msg: 'Unauthorized',
+  //   });
+  // }
 
   const board = new Board({
     name,
@@ -32,11 +32,11 @@ exports.addStage = async (req, res) => {
   const { name } = req.body;
   const { boardId } = req.params;
 
-  if (!req.userId) {
-    return res.status(StatusCodes.FORBIDDEN).json({
-      msg: 'Unauthorized',
-    });
-  }
+  // if (!req.userId) {
+  //   return res.status(StatusCodes.FORBIDDEN).json({
+  //     msg: 'Unauthorized',
+  //   });
+  // }
 
   if (!name) {
     return res.status(StatusCodes.BAD_REQUEST).json({
@@ -58,11 +58,11 @@ exports.addJob = async (req, res) => {
   const { stageId } = req.params;
   const { company, title } = req.body;
 
-  if (!req.userId) {
-    return res.status(StatusCodes.FORBIDDEN).json({
-      msg: 'Unauthorized',
-    });
-  }
+  // if (!req.userId) {
+  //   return res.status(StatusCodes.FORBIDDEN).json({
+  //     msg: 'Unauthorized',
+  //   });
+  // }
 
   if (!company) {
     return res.status(StatusCodes.BAD_REQUEST).json({
@@ -92,11 +92,11 @@ exports.addJob = async (req, res) => {
 exports.getBoards = async (req, res) => {
   const { userId } = req.params;
 
-  if (userId != req.userId) {
-    return res.status(StatusCodes.FORBIDDEN).json({
-      msg: 'Unauthorized',
-    });
-  }
+  // if (userId != req.userId) {
+  //   return res.status(StatusCodes.FORBIDDEN).json({
+  //     msg: 'Unauthorized',
+  //   });
+  // }
 
   const boards = await Board.find({ user: userId });
 
@@ -109,11 +109,11 @@ exports.getBoards = async (req, res) => {
 exports.getStages = async (req, res) => {
   const { boardId } = req.params;
 
-  if (!req.userId) {
-    return res.status(StatusCodes.FORBIDDEN).json({
-      msg: 'Unauthorized',
-    });
-  }
+  // if (!req.userId) {
+  //   return res.status(StatusCodes.FORBIDDEN).json({
+  //     msg: 'Unauthorized',
+  //   });
+  // }
 
   const stages = await Stage.find({ board: boardId });
 
