@@ -5,6 +5,7 @@ import { Context } from '../../../../../context/index';
 import { Transition, Dialog } from '@headlessui/react';
 import axios from 'axios';
 import AddStageForm from '../../../../../components/Forms/AddStageForm';
+import AddJobForm from '../../../../../components/Forms/AddJobForm';
 
 function Boards() {
   const router = useRouter();
@@ -15,6 +16,9 @@ function Boards() {
   const [stages, setStages] = useState([]);
   const [stageModal, setStageModal] = useState(false);
   const [stageName, setStageName] = useState('');
+  const [jobModal, setJobModal] = useState(false);
+  const [currentId, setCurrentId] = useState('');
+  const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
     loadStages();
@@ -41,6 +45,15 @@ function Boards() {
     setStageModal(false);
   };
 
+  const openJobModal = (e, id) => {
+    setJobModal(true);
+    setCurrentId(id);
+  };
+
+  const closeJobModal = () => {
+    setJobModal(false);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -63,7 +76,7 @@ function Boards() {
       <main className="flex overflow-x-auto overflow-y-hidden h-[92vh] w-full">
         {stages?.map((stage) => (
           <section
-            key={stage.name}
+            key={stage._id}
             className="bg-gray-100 w-[40rem] border-r-2 p-4 h-[92vh] "
           >
             <center className="mb-2">
@@ -73,11 +86,53 @@ function Boards() {
               </div>
 
               <button
+                onClick={(e) => openJobModal(e, stage._id)}
+                key={stage._id}
                 className="bg-white border-2 w-72 rounded-md text-4xl text-gray-300"
                 title="Add Job"
               >
                 +
               </button>
+              <Transition as={Fragment} appear show={jobModal}>
+                <Dialog as="div" onClose={closeJobModal}>
+                  <Transition
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                  >
+                    <div className="fixed bg-black bg-opacity-25 inset-0" />
+                  </Transition>
+                  <div className=" fixed inset-0 overflow-y-auto">
+                    <div className="flex items-center justify-center min-h-full ">
+                      <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0 scale-95"
+                        enterTo="opacity-100 scale-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100 scale-100"
+                        leaveTo="opacity-0 scale-95"
+                      >
+                        <Dialog.Panel className=" w-[25rem] transition-all rounded-lg transform bg-white shadow-lg">
+                          <h1 className="font-bold text-2xl text-center py-2">
+                            Add Job
+                          </h1>
+                          <AddJobForm
+                            currentId={currentId}
+                            closeJobModal={closeJobModal}
+                            stages={stages}
+                            setStages={setStages}
+                          />
+                        </Dialog.Panel>
+                      </Transition.Child>
+                    </div>
+                  </div>
+                </Dialog>
+              </Transition>
             </center>
 
             <main
