@@ -61,6 +61,7 @@ export default function Sidebar() {
       });
 
       console.log(data);
+      await loadBoards();
       closeBoardModal();
     } catch (err) {
       console.log(err);
