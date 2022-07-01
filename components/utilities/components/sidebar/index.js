@@ -49,7 +49,7 @@ export default function Sidebar() {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        'http://localhost:5000/api/board/create',
+        `http://localhost:5000/api/board/create/${user._id}`,
         {
           name: boardName,
         }
