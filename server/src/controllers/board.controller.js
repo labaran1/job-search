@@ -4,6 +4,7 @@ const Stage = require('../models/stage.model');
 
 exports.create = async (req, res) => {
   const { name } = req.body;
+  const { userId } = req.params;
 
   if (!name) {
     return res.status(StatusCodes.BAD_REQUEST).json({
@@ -19,7 +20,7 @@ exports.create = async (req, res) => {
 
   const board = new Board({
     name,
-    user: req.userId,
+    user: userId,
   });
 
   await board.save();
